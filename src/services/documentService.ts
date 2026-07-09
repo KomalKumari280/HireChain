@@ -5,8 +5,13 @@ export interface DocumentRecord {
   mimeType: string;
   uploadDate: string;
   hash: string;
-}
 
+  // Optional fields for frontend testing
+  uploadedBy?: string;
+  role?: string;
+  verifiedBy?: string;
+  status?: string;
+}
 const STORAGE_KEY = "hirechain_documents";
 
 export const getDocuments = (): DocumentRecord[] => {

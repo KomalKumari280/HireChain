@@ -1,5 +1,6 @@
 import { useState } from "react";
 import StatCard from "../components/StatCard";
+import { saveDocument } from "../services/documentService";
 
 interface Metadata {
   fileName: string;
@@ -63,18 +64,31 @@ export default function UploadDocument() {
   };
 
   const handleUpload = () => {
-    if (!metadata || !hash) {
-      alert(
-        "Please select a file first."
-      );
-      return;
-    }
+  if (!metadata || !hash) {
+    alert("Please select a file first.");
+    return;
+  }
 
-    alert(
-      "Document uploaded successfully!"
-    );
-  };
+  saveDocument({
+    id: Date.now(),
 
+    fileName: metadata.fileName,
+    fileSize: metadata.fileSize,
+    mimeType: metadata.mimeType,
+    uploadDate: metadata.uploadDate,
+    hash: hash,
+
+    uploadedBy: "Demo User",
+    role: "Employee",
+    verifiedBy: "Admin",
+    status: "Verified",
+  });
+
+  alert("Document uploaded successfully!");
+
+  setMetadata(null);
+  setHash("");
+};
   return (
     <div className="space-y-8">
 

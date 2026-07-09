@@ -1,14 +1,11 @@
-import {
-  getDocuments,
-} from "../services/documentService";
+import { Link } from "react-router-dom";
+import { getDocuments } from "../services/documentService";
 
 export default function BlockchainLedger() {
-  const documents =
-    getDocuments();
+  const documents = getDocuments();
 
   return (
     <div>
-
       <h1 className="text-4xl font-bold mb-8">
         Blockchain Ledger
       </h1>
@@ -50,11 +47,15 @@ export default function BlockchainLedger() {
                   </th>
 
                   <th className="p-4 text-left">
-                    Size
+                    Uploaded By
                   </th>
 
                   <th className="p-4 text-left">
-                    Type
+                    Role
+                  </th>
+
+                  <th className="p-4 text-left">
+                    Verified By
                   </th>
 
                   <th className="p-4 text-left">
@@ -62,7 +63,15 @@ export default function BlockchainLedger() {
                   </th>
 
                   <th className="p-4 text-left">
+                    Status
+                  </th>
+
+                  <th className="p-4 text-left">
                     Hash
+                  </th>
+
+                  <th className="p-4 text-center">
+                    Action
                   </th>
 
                 </tr>
@@ -71,50 +80,103 @@ export default function BlockchainLedger() {
 
               <tbody>
 
-                {documents.map(
-                  (doc) => (
+                {documents.map((doc) => (
 
-                    <tr
-                      key={doc.id}
-                      className="
-                      border-b
-                      border-slate-800
-                      hover:bg-slate-800/40
-                      "
-                    >
+                  <tr
+                    key={doc.id}
+                    className="
+                    border-b
+                    border-slate-800
+                    hover:bg-slate-800/40
+                    transition
+                    "
+                  >
 
-                      <td className="p-4">
-                        {doc.fileName}
-                      </td>
+                    <td className="p-4 font-medium">
+                      {doc.fileName}
+                    </td>
 
-                      <td className="p-4">
-                        {doc.fileSize}
-                      </td>
+                    <td className="p-4">
+                      {(doc as any).uploadedBy || "John Doe"}
+                    </td>
 
-                      <td className="p-4">
-                        {doc.mimeType}
-                      </td>
+                    <td className="p-4">
 
-                      <td className="p-4">
-                        {doc.uploadDate}
-                      </td>
-
-                      <td
+                      <span
                         className="
-                        p-4
+                        px-3
+                        py-1
+                        rounded-full
+                        bg-cyan-500/20
                         text-cyan-400
-                        font-mono
-                        text-xs
-                        break-all
+                        text-sm
                         "
                       >
-                        {doc.hash}
-                      </td>
+                        {(doc as any).role || "Employee"}
+                      </span>
 
-                    </tr>
+                    </td>
 
-                  )
-                )}
+                    <td className="p-4">
+                      {(doc as any).verifiedBy || "Admin"}
+                    </td>
+
+                    <td className="p-4">
+                      {doc.uploadDate}
+                    </td>
+
+                    <td className="p-4">
+
+                      <span
+                        className="
+                        px-3
+                        py-1
+                        rounded-full
+                        bg-green-500/20
+                        text-green-400
+                        text-sm
+                        "
+                      >
+                        {(doc as any).status || "Verified"}
+                      </span>
+
+                    </td>
+
+                    <td
+                      className="
+                      p-4
+                      text-cyan-400
+                      font-mono
+                      text-xs
+                      break-all
+                      max-w-xs
+                      "
+                    >
+                      {doc.hash}
+                    </td>
+
+                    <td className="p-4 text-center">
+
+                      <Link
+                        to={`/block/${doc.id}`}
+                        className="
+                        bg-cyan-500
+                        hover:bg-cyan-600
+                        px-4
+                        py-2
+                        rounded-lg
+                        text-white
+                        transition
+                        "
+                      >
+                        View Details
+                      </Link>
+
+                    </td>
+
+                  </tr>
+
+                ))}
 
               </tbody>
 
